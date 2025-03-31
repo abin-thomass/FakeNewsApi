@@ -1,15 +1,19 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "api.py",
-            "use": "@vercel/python"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "api.py"
-        }
-    ]
+  "version": 2,
+  "builds": [
+    {
+      "src": "api.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "api.py"
+    }
+  ],
+  "env": {
+    "GROQ_API_KEY": "@groq_api_key",
+    "STREAM_SEARCH_URL": "@stream_search_url"
+  }
 }
