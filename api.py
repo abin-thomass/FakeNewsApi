@@ -51,7 +51,9 @@ def getImage(url, heading):
     response = requests.get(url)
     soup = bs(response.text, 'html.parser')
     images = soup.find_all('img')
-
+    texts = heading.split(" ")
+    print(texts)
+    matched_urls = []
     for img in images:
         title = img.get('title') or ""  
         alt = img.get('alt') or ""      
@@ -62,8 +64,19 @@ def getImage(url, heading):
 
     for img in images:
         src = img.get('src') or ""
-        if src.startswith("https://images.") or src.startswith("https://cdn.") or src.startswith("https://static.") or src.startswith("https://") and not src.endswith(".svg") and not src.endswith(".png") and not src.startswith("https://www.facebook.com"):
-            print("Image found:", src)
+        alt = img.get('alt') or ""
+        if src.startswith("https://images.") or src.startswith("https://cdn.") or src.startswith("https://static.") or src.startswith("https://") and not src.endswith(".svg") and not src.startswith("https://www.facebook.com") and any(text in alt for text in texts):
+            if src.endswith(".png"):
+                for source in soup.find_all('source'):
+                   srcset = source.get('srcset', '')
+                   for item in srcset.split(','):
+                      url = item.strip().split(' ')[0] 
+                      if any(word in url for word in texts):
+                       matched_urls.append(url)
+                   print(matched_urls)
+                   if matched_urls:
+                          return matched_urls[0]
+            print("Image found 2:", src)
             return src  
 def is_trusted_source(url):
     return any(site in url for site in TRUSTED_SITES)
