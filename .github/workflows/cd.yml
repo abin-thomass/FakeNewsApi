@@ -1,0 +1,25 @@
+name: Cd-pipeline
+
+on:
+   workflow_run:
+    workflows: [Ci-pipeline]
+    types:
+      - completed
+jobs:
+
+  build:
+
+    runs-on: self-hosted
+
+    steps:
+    - name: pull docker image
+      run: sudo docker pull abinthomass/ci-pipeline:latest
+    - name: delete old docker
+      run: sudo docker rm -f ci-pipeline-container || true
+    - name: run docker image
+      run: |
+          sudo docker run -d -p 8000:8000 \
+            --name ci-pipeline-container \
+            -e GROQ_API_KEY=$GROQ_API_KEY \
+            -e STREAM_SEARCH_URL=$STREAM_SEARCH_URL \
+            abinthomass/ci-pipeline:latest
