@@ -40,7 +40,7 @@ TRUSTED_SITES = [
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello, Hope you are not doing well :)"}
 
 def headingExt(url):
     response = requests.get(url)
