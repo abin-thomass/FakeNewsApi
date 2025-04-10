@@ -5,3 +5,4 @@ requests
 bs4
 groq
 python-dotenv
+fastapi[standard]
