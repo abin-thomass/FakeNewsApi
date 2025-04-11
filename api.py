@@ -70,14 +70,14 @@ def getImage(url, heading):
                 for source in soup.find_all('source'):
                    srcset = source.get('srcset', '')
                    for item in srcset.split(','):
-                      url = item.strip().split(' ')[0] 
-                      if any(word in url for word in texts):
-                       matched_urls.append(url)
+                      url = item.strip().split(' ')[0]
+                      matched_urls.append(url)
                    print(matched_urls)
                    if matched_urls:
-                          return matched_urls[0]
-            print("Image found 2:", src)
-            return src  
+                        return matched_urls[0]
+            else:
+                if not src.endswith(".png") or src.endswith(".jpg") or src.endswith(".jpeg"):
+                         return src  
 def is_trusted_source(url):
     return any(site in url for site in TRUSTED_SITES)
 @app.post("/check")
